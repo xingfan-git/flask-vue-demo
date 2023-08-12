@@ -7,14 +7,9 @@ app = Flask(__name__,
             static_folder="../frontend/dist/static",
             template_folder="../frontend/dist")
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
-
+PORT = 8010
 
 @app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def catch_all(path):
-    if app.debug:
-        return requests.get('http://localhost:8080/{}'.format(path)).text
-    return render_template("index.html")
 
 
 @app.route('/api/random')
@@ -23,3 +18,6 @@ def random_number():
         'randomNumber': randint(1, 100)
     }
     return jsonify(response)
+
+if __name__ == '__main__':
+    app.run(port=int(PORT), debug=True)
